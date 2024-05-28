@@ -11,6 +11,8 @@ import { useState } from "react";
 import { Link } from "expo-router";
 import { Entypo } from "@expo/vector-icons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { getItem, setItem } from "@/components/Utils/AsyncStorage";
+import * as FileSystem from "expo-file-system";
 
 export default function SignUp({
   setStage,
@@ -33,10 +35,17 @@ export default function SignUp({
 
     const result = await ImagePicker.launchCameraAsync();
     if (!result.canceled) {
-      setStage("verification");
+      // setStage("verification");
       console.log(result);
       setImage(result.assets[0].uri);
-      setStage("verification");
+      // convert to base64
+      const imageInfo = await FileSystem.getInfoAsync(result.assets[0].uri);
+      if (imageInfo.exists) {
+        const imageUri = imageInfo.uri;
+        const imageBlob = await (await fetch(imageUri)).blob();
+        console.log(imageBlob);
+        // setStage("verification");
+      }
     }
   };
 
@@ -55,9 +64,11 @@ export default function SignUp({
     });
     if (!result.canceled) {
       // const result = await ImagePicker.launchCameraAsync();
-      setStage("verification");
+      // setStage("verification");
       setImage(result.assets[0].uri);
-      console.log(result);
+      // await setItem("user_image", result.assets[0].uri);
+      await setItem("user_image", result.assets[0].uri);
+      setStage("verification");
     }
   };
 

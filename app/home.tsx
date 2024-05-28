@@ -2,21 +2,32 @@ import React from "react";
 import { View, Image, Text, ScrollView, Pressable } from "react-native";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AppLayout from "../components/Pages/app/_layout";
 import { Link } from "expo-router";
+import { Video } from "expo-av";
 
 const Home: React.FC = () => {
   const [showMenu, setShowMenu] = React.useState(false);
+
   return (
     <AppLayout>
       <View style={styles.avatarContainer}>
         <View style={styles.avatar}>
-          <Image
+          <Video
             style={styles.avatarImage}
-            source={require("../assets/images/app/avatar.png")}
+            shouldPlay={true}
+            // isLooping={true}
+            // OWNER
+            // source={{
+            //   uri: "https://s3.us-east-2.amazonaws.com/com.mkdlabs.images/baas/qualitysign/0893763996021716838626446.mp4",
+            // }}
+            //ASIAN
+            source={{
+              uri: "https://s3.us-east-2.amazonaws.com/com.mkdlabs.images/baas/qualitysign/0184898972841716919609059.mp4",
+            }}
           />
         </View>
         <View style={styles.audioContainer}>
@@ -24,6 +35,17 @@ const Home: React.FC = () => {
             style={styles.audioImage}
             source={require("../assets/images/logo.png")}
           />
+          <Text
+            style={{
+              color: "black",
+              fontSize: 10,
+              fontWeight: "bold",
+              textAlign: "center",
+              marginTop: 10,
+            }}
+          >
+            Tap to speak
+          </Text>
           <View style={styles.actionContainer}>
             {showMenu && (
               <View>
@@ -39,6 +61,11 @@ const Home: React.FC = () => {
                 <View style={styles.circle}>
                   <Link href="/account">
                     <MaterialIcons name="person-2" size={34} color="white" />
+                  </Link>
+                </View>
+                <View style={styles.circle}>
+                  <Link href="/folders">
+                    <FontAwesome name="folder" size={24} color="white" />
                   </Link>
                 </View>
                 <View style={styles.circle}>
@@ -73,7 +100,7 @@ const styles = StyleSheet.create({
   avatarContainer: {
     width: "100%",
     flexDirection: "row",
-    height: "85%",
+    height: "100%",
     justifyContent: "flex-start",
   },
   avatar: {
@@ -84,6 +111,7 @@ const styles = StyleSheet.create({
   avatarImage: {
     width: "100%",
     height: "100%",
+    backgroundColor: "grey",
   },
   audioContainer: {
     flex: 1,
