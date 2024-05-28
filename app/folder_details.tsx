@@ -22,7 +22,7 @@ const Home: React.FC = () => {
             <Text style={styles.folderDetailsS1Name2}>15 Videos 30 Min</Text>
           </View>
           <View style={styles.folderDetailsS2}>
-            <Link href="/home">
+            <Link href="/folders">
               <Fontisto name="share" size={34} color="white" />
             </Link>
           </View>
