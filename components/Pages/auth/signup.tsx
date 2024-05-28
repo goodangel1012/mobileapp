@@ -11,69 +11,121 @@ import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import TextInput from "@/components/Auth/TextInput";
 import Button from "@/components/Auth/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "expo-router";
+import PasswordInput from "@/components/Auth/PasswordInput";
+import { getItem, setItem } from "@/components/Utils/AsyncStorage";
 
 export default function SignUp({
   setStage,
+  error,
+  setError,
 }: {
+  error: string;
+  setError: React.Dispatch<React.SetStateAction<string>>;
   setStage: React.Dispatch<
     React.SetStateAction<
       "audio" | "image" | "signup" | "login" | "verification"
     >
   >;
 }) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [firstName, setFirstName] = useState("Fritz");
+  const [lastName, setLastName] = useState("Lamour");
+  const [userName, setUserName] = useState("EsDHENRY123");
+  const [email, setEmail] = useState("testlims1019@gmail.com");
+  const [password, setPassword] = useState("12345678");
+  const [confirmPassword, setConfirmPassword] = useState("12345678");
   const [disabled, setDisabled] = useState(false);
+  const [showSuccess, setShowSuccess] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    password: false,
+    userName: false,
+  });
+  useEffect(() => {
+    const newShowSuccess = {
+      firstName: firstName !== "",
+      lastName: lastName !== "",
+      userName: userName.length >= 6,
+      email: email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) !== null,
+      password: password.length >= 8 && password === confirmPassword,
+    };
 
-  const navigation = useNavigation();
+    setShowSuccess(newShowSuccess);
+
+    const isFormValid = Object.values(newShowSuccess).every(Boolean);
+
+    setDisabled(!isFormValid);
+  }, [firstName, lastName, userName, email, password, confirmPassword]);
+
+  // get parameters from url
+  useEffect(() => {
+    if (error) {
+      const fetchData = async () => {
+        let user_details = await getItem("user");
+
+        setFirstName(user_details.firstName);
+        setLastName(user_details.lastName);
+        setUserName(user_details.userName);
+        setEmail(user_details.email);
+        setPassword(user_details.password);
+        setConfirmPassword(user_details.password);
+      };
+      fetchData();
+    }
+  }, [error]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome</Text>
+      {error && <Text style={{ color: "red", marginBottom: 10 }}>{error}</Text>}
       <TextInput
-        error={error}
         label="First Name"
         onChangeText={setFirstName}
         value={firstName}
+        showCheck={showSuccess.firstName}
       />
       <TextInput
         label="Last Name"
         onChangeText={setLastName}
         value={lastName}
+        showCheck={showSuccess.lastName}
       />
-      <TextInput label="Password" onChangeText={setPassword} value={password} />
-      <TextInput
+      <PasswordInput
+        label="Password"
+        onChangeText={setPassword}
+        value={password}
+        showCheck={showSuccess.password}
+      />
+      <PasswordInput
         label="Confirm Password"
         onChangeText={setConfirmPassword}
         value={confirmPassword}
+        showCheck={showSuccess.password}
       />
-      <TextInput label="Username" onChangeText={setEmail} value={email} />
-      <TextInput label="Email" onChangeText={setEmail} value={email} />
+      <TextInput
+        label="Username"
+        showCheck={showSuccess.userName}
+        onChangeText={setUserName}
+        value={userName}
+      />
+      <TextInput
+        label="Email"
+        showCheck={showSuccess.email}
+        onChangeText={setEmail}
+        value={email}
+      />
 
-      <TouchableOpacity
-        style={styles.imageContainer}
-        // onPress={() => navigation.navigate("ProfileModal")}
-      >
-        <Pressable
-          style={styles.imagePressable}
-          // onPress={() => setStage("audio")}
-        >
+      {/* <TouchableOpacity style={styles.imageContainer}>
+        <Pressable style={styles.imagePressable}>
           <Image
             style={styles.image}
             source={require("../../../assets/images/auth/profile_1.png")}
             resizeMode="contain"
           />
         </Pressable>
-        <Pressable
-          style={styles.imagePressable}
-          // onPress={() => setStage("image")}
-        >
+        <Pressable style={styles.imagePressable}>
           <Image
             style={styles.image}
             source={require("../../../assets/images/auth/profile_2.png")}
@@ -90,12 +142,22 @@ export default function SignUp({
             resizeMode="contain"
           />
         </Pressable>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Button
         disabled={disabled}
         title="Sign Up"
-        onPress={() => setStage("audio")}
+        onPress={async () => {
+          setStage("audio");
+          await setItem("user", {
+            firstName,
+            lastName,
+            userName,
+            email,
+            password,
+          });
+        }}
       />
+
       <Text style={styles.login}>
         Already have an account?
         <Link

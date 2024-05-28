@@ -60,7 +60,7 @@ const Home: React.FC = () => {
           </View>
         </View>
         <View style={styles.action}>
-          <Link href="/home">
+          <Link href="/contact_details">
             <AntDesign name="back" size={50} color="black" />
           </Link>
           <AntDesign name="up" size={50} color="black" />
