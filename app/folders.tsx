@@ -37,6 +37,16 @@ const Home: React.FC = () => {
 
   return (
     <AppLayout>
+      <Text
+        style={{
+          fontSize: 24,
+          fontWeight: "bold",
+          textAlign: "center",
+          marginTop: 20,
+        }}
+      >
+        Jane Shelock Folders
+      </Text>
       <View style={styles.avatarContainer}>
         <View style={styles.audioContainer}>
           <Image
@@ -50,7 +60,7 @@ const Home: React.FC = () => {
           </View>
         </View>
         <View style={styles.action}>
-          <Link href="/contact_details">
+          <Link href="/home">
             <AntDesign name="back" size={50} color="black" />
           </Link>
           <AntDesign name="up" size={50} color="black" />

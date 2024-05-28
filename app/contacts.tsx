@@ -33,6 +33,16 @@ const Home: React.FC = () => {
 
   return (
     <AppLayout>
+      <Text
+        style={{
+          fontSize: 24,
+          fontWeight: "bold",
+          textAlign: "center",
+          marginTop: 20,
+        }}
+      >
+        Friends
+      </Text>
       <View style={styles.avatarContainer}>
         <View style={styles.avatar}>
           <Friends
