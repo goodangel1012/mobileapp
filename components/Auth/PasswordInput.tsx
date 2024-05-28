@@ -15,12 +15,18 @@ interface Props extends TextInputProps {
   showCheck?: boolean;
 }
 
-const TextInput: React.FC<Props> = ({ label, error, showCheck, ...props }) => {
+const PasswordInput: React.FC<Props> = ({
+  label,
+  error,
+  showCheck,
+  ...props
+}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.inputContainer}>
         <RNTextInput
+          secureTextEntry={true}
           style={[styles.input, error ? styles.inputError : null]}
           {...props}
         />
@@ -33,7 +39,7 @@ const TextInput: React.FC<Props> = ({ label, error, showCheck, ...props }) => {
   );
 };
 
-export default TextInput;
+export default PasswordInput;
 
 const styles = StyleSheet.create({
   container: {

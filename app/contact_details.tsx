@@ -14,6 +14,16 @@ const Home: React.FC = () => {
 
   return (
     <AppLayout>
+      <Text
+        style={{
+          fontSize: 24,
+          fontWeight: "bold",
+          textAlign: "center",
+          marginTop: 20,
+        }}
+      >
+        Jane Shelock
+      </Text>
       <View style={styles.avatarContainer}>
         <View style={styles.avatar}>
           <View style={styles.avatar}>
@@ -46,7 +56,7 @@ const Home: React.FC = () => {
                   </Link>
                 </View>
                 <View style={styles.circle}>
-                  <Link href="/folders">
+                  <Link href="/folders_contact">
                     <FontAwesome name="folder" size={24} color="white" />
                   </Link>
                 </View>
