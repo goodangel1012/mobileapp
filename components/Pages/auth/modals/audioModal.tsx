@@ -1,6 +1,7 @@
 import React, { useState, useEffect, SetStateAction } from "react";
 import { View, Button, Text, StyleSheet, Pressable } from "react-native";
 import { Audio } from "expo-av";
+import { setItem } from "@/components/Utils/AsyncStorage";
 
 export default function SignUp({
   setStage,
@@ -29,8 +30,12 @@ export default function SignUp({
   const startRecording = async () => {
     try {
       // Create a new recording instance
+
+      setIsPlaying(false);
       const recording = new Audio.Recording();
       await recording.prepareToRecordAsync();
+      await recording.startAsync();
+
       setRecording(recording as unknown as SetStateAction<null>);
       setIsRecording(true);
     } catch (error) {
@@ -42,6 +47,12 @@ export default function SignUp({
     try {
       if (recording) {
         await (recording as Audio.Recording).stopAndUnloadAsync();
+        const uri = (recording as Audio.Recording).getURI();
+        if (uri) {
+          await setItem("user_audio", uri);
+          console.log("Recording stopped and stored at", uri);
+        }
+        // console.log("Recording stopped and stored at", uri);
       }
       setStage("image");
       setIsRecording(false);

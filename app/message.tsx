@@ -42,7 +42,7 @@ const Home: React.FC = () => {
             />
           </View>
           <View style={styles.name}>
-            <Text>John Doe</Text>
+            <Text>Fritz Lamour</Text>
           </View>
         </View>
         <View style={styles.aboutCard}>
@@ -63,25 +63,35 @@ const Home: React.FC = () => {
 
   return (
     <AppLayout>
+      <Text
+        style={{
+          fontSize: 24,
+          fontWeight: "bold",
+          textAlign: "center",
+          marginTop: 20,
+        }}
+      >
+        Find Friends
+      </Text>
       <View style={styles.avatarContainer}>
         <View style={styles.avatar}>
           {stage === "friends" && (
             <Friends
               data={[
                 {
-                  name: "John Doe",
+                  name: "Fritz Lamour",
                   image: require("../assets/images/app/avatar.png"),
                 },
                 {
-                  name: "John Doe",
+                  name: "Samuel Owusu",
                   image: require("../assets/images/app/avatar.png"),
                 },
                 {
-                  name: "John Doe",
+                  name: "Teslim Akinremi",
                   image: require("../assets/images/app/avatar.png"),
                 },
                 {
-                  name: "John Doe",
+                  name: "Sam",
                   image: require("../assets/images/app/avatar.png"),
                 },
               ]}
@@ -104,7 +114,8 @@ const Home: React.FC = () => {
             <Ionicons name="exit-outline" size={44} color="black" />
           </View>
           <View style={styles.actionContainer}>
-            {showMenu && (
+            {/* {showMenu && ( */}
+            {true && (
               <View>
                 <View style={styles.circle}>
                   <Link href="/contacts">
@@ -124,12 +135,12 @@ const Home: React.FC = () => {
                 </View>
               </View>
             )}
-            <Pressable onPress={() => setShowMenu(!showMenu)}>
-              <View style={styles.circle}>
-                <FontAwesome name="send" size={30} color="white" />
-                {/* <AntDesign name="pluscircle" size={65} color="white" /> */}
-              </View>
-            </Pressable>
+            {/* <Pressable onPress={() => setShowMenu(!showMenu)}> */}
+            {/* <View style={styles.circle}> */}
+            {/* <FontAwesome name="send" size={30} color="white" /> */}
+            {/* <AntDesign name="pluscircle" size={65} color="white" /> */}
+            {/* </View> */}
+            {/* </Pressable> */}
           </View>
         </View>
       </View>
